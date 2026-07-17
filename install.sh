@@ -11,30 +11,23 @@ log()  { echo -e "${GREEN}[+]${NC} $1"; }
 warn() { echo -e "${YELLOW}[!]${NC} $1"; }
 err()  { echo -e "${RED}[x]${NC} $1"; exit 1; }
 
-# --- AUR helper ---
-if command -v paru &>/dev/null; then
-    AUR=paru
-elif command -v yay &>/dev/null; then
-    AUR=yay
-else
-    err "No AUR helper found. Install paru or yay first:\n  sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/paru.git /tmp/paru && cd /tmp/paru && makepkg -si"
-fi
-log "Using $AUR"
-
 # --- Packages ---
-PACMAN_PKGS=(
+# All packages are available in official CachyOS/Arch repos — no AUR helper needed.
+# rofi 2.x (extra/cachyos) is the Wayland-native version (was rofi-wayland on AUR).
+PKGS=(
     # Hyprland ecosystem
-    hyprland waybar hypridle hyprlock hyprpolkitagent
+    hyprland waybar hypridle hyprlock hyprpolkitagent hyprpicker
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
     # Terminal / shell
     kitty zsh zsh-autosuggestions zsh-syntax-highlighting
     # Wayland utilities
-    swww grim slurp playerctl brightnessctl pamixer
+    awww waypaper grim slurp playerctl brightnessctl pamixer
     # Audio
     pipewire pipewire-pulse pipewire-alsa wireplumber
     # Networking / BT
     networkmanager network-manager-applet blueman
     # Apps
+    rofi matugen swaync wlogout
     nautilus yazi fastfetch cava
     # Fonts
     ttf-jetbrains-mono-nerd noto-fonts noto-fonts-emoji cantarell-fonts
@@ -44,30 +37,18 @@ PACMAN_PKGS=(
     libnotify polkit-kde-agent gtk3 gtk4 python
 )
 
-AUR_PKGS=(
-    rofi-wayland
-    matugen
-    swaync
-    wlogout
-    hyprpicker
-)
-
 OPTIONAL_PKGS=(
     vesktop        # Discord
-    spicetify-cli  # Spotify theming
 )
 
-log "Installing official packages..."
-sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
-
-log "Installing AUR packages..."
-$AUR -S --needed --noconfirm "${AUR_PKGS[@]}"
+log "Installing packages..."
+sudo pacman -S --needed --noconfirm "${PKGS[@]}"
 
 echo ""
-warn "Optional: vesktop (Discord), spicetify-cli (Spotify themes)"
+warn "Optional: vesktop (Discord)"
 read -rp "Install optional packages? [y/N] " opt
 if [[ "$opt" =~ ^[Yy]$ ]]; then
-    $AUR -S --needed --noconfirm "${OPTIONAL_PKGS[@]}"
+    sudo pacman -S --needed --noconfirm "${OPTIONAL_PKGS[@]}"
 fi
 
 # --- Oh My Zsh ---
@@ -140,10 +121,10 @@ systemctl --user enable --now pipewire pipewire-pulse wireplumber 2>/dev/null ||
 FIRST_WALL=$(ls "$HOME/Pictures/wallpapers/"*.{jpg,png,gif,jpeg} 2>/dev/null | head -1)
 if [ -n "$FIRST_WALL" ]; then
     log "Seeding matugen colors from: $(basename "$FIRST_WALL")"
-    warn "swww-daemon must be running for this — skip if setting up before first login."
-    read -rp "Seed colors now? Requires swww-daemon running. [y/N] " seed
+    warn "awww-daemon must be running for this — skip if setting up before first login."
+    read -rp "Seed colors now? Requires awww-daemon running. [y/N] " seed
     if [[ "$seed" =~ ^[Yy]$ ]]; then
-        swww-daemon &
+        awww-daemon &
         sleep 1
         matugen image "$FIRST_WALL"
     fi
