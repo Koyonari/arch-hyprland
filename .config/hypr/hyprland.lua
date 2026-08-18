@@ -10,4 +10,5 @@ require("config.input")
 require("config.keybinds")
 require("config.misc")
 require("config.monitors")
+require("monitors") -- hyprmoncfg-generated profile output
 require("config.windowrules")

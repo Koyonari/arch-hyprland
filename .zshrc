@@ -113,3 +113,8 @@ source $ZSH/oh-my-zsh.sh
 
 fastfetch
 
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+export GOPATH="$HOME/.local/share/go"

@@ -15,7 +15,7 @@ post_hook = "kill -SIGUSR1 $(pidof kitty)"
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
-post_hook = 'hyprctl reload'
+post_hook = '~/.config/hypr/scripts/apply-colors.sh'
 
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk-colors.css'
@@ -33,6 +33,19 @@ output_path = '~/.config/rofi/colors.rasi'
 input_path = '~/.config/matugen/templates/matugen-cava'
 output_path = '~/.config/cava/config'
 post_hook = "pkill -USR1 cava"
+
+[templates.waypaper]
+input_path = '~/.config/matugen/templates/waypaper.css'
+output_path = '~/.config/waypaper/style.css'
+
+[templates.nvim]
+input_path = '~/.config/matugen/templates/nvim-palette.lua'
+output_path = '~/.config/nvim/lua/matugen_palette.lua'
+
+[templates.tmux]
+input_path = '~/.config/matugen/templates/tmux-colors.conf'
+output_path = '~/.config/tmux/matugen-colors.conf'
+post_hook = 'tmux source ~/.tmux.conf 2>/dev/null || true'
 
 [templates.spicetify]
 input_path = '~/.config/matugen/templates/spotify-colors.ini'
