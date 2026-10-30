@@ -34,13 +34,18 @@ hl.config({
     decoration = {
         dim_special = 0.3,
         rounding = 10,
-        active_opacity = 0.95,
-        inactive_opacity = 0.85,
+        active_opacity = 1.0,
+        inactive_opacity = 1.0,
         fullscreen_opacity = 1,
+        -- Blur/shadows/transparency off for performance (4K, GPU thermal-limited)
         blur = {
+            enabled = false,
             size = 5,
-            passes = 4,
-            special = true,
+            passes = 2,
+            special = false,
+        },
+        shadow = {
+            enabled = false,
         },
     },
 })

@@ -19,22 +19,22 @@ PKGS=(
     hyprland waybar hypridle hyprlock hyprpolkitagent hyprpicker
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
     # Terminal / shell
-    kitty zsh zsh-autosuggestions zsh-syntax-highlighting
+    kitty zsh zsh-autosuggestions zsh-syntax-highlighting tmux
     # Wayland utilities
-    awww waypaper grim slurp playerctl brightnessctl pamixer
+    awww waypaper grim slurp wl-clipboard playerctl brightnessctl pamixer xorg-xhost
     # Audio
     pipewire pipewire-pulse pipewire-alsa wireplumber
     # Networking / BT
     networkmanager network-manager-applet blueman
     # Apps
     rofi matugen swaync wlogout
-    nautilus yazi fastfetch cava
+    nautilus yazi fastfetch cava btop
     # Fonts
     ttf-jetbrains-mono-nerd noto-fonts noto-fonts-emoji cantarell-fonts
     # Qt Wayland support
     qt5-wayland qt6-wayland
     # Misc
-    libnotify polkit-kde-agent gtk3 gtk4 python
+    libnotify polkit-kde-agent gtk3 gtk4 python rsync flatpak
 )
 
 OPTIONAL_PKGS=(

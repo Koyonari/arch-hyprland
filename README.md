@@ -22,7 +22,7 @@ Special credit to [JaKooLit](https://github.com/JaKooLit) — several scripts an
 | App Launcher | Rofi (Wayland) |
 | Notifications | SwayNC (swaync) |
 | Lock Screen | Hyprlock |
-| Idle Daemon | Hypridle |
+| Idle Daemon | Hypridle (`hypridle-suspend.conf` locks before suspend) |
 | Wallpaper | Waypaper (backend: awww) |
 | Color Scheme | Matugen |
 | Shell | Zsh + Oh My Zsh |
@@ -102,19 +102,24 @@ All packages below are available in the official CachyOS/Arch repos — no AUR h
 ```
 hyprland waybar hypridle hyprlock hyprpolkitagent hyprpicker
 xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
-kitty zsh zsh-autosuggestions zsh-syntax-highlighting
-awww waypaper grim slurp playerctl brightnessctl pamixer
+kitty zsh zsh-autosuggestions zsh-syntax-highlighting tmux
+awww waypaper grim slurp wl-clipboard playerctl brightnessctl pamixer xorg-xhost
 pipewire pipewire-pulse pipewire-alsa wireplumber
 networkmanager network-manager-applet blueman
 rofi matugen swaync wlogout
-nautilus yazi fastfetch cava
+nautilus yazi fastfetch cava btop
 ttf-jetbrains-mono-nerd noto-fonts noto-fonts-emoji cantarell-fonts
-qt5-wayland qt6-wayland libnotify polkit-kde-agent gtk3 gtk4 python
+qt5-wayland qt6-wayland libnotify polkit-kde-agent gtk3 gtk4 python rsync flatpak
 ```
 
 **Optional:**
 ```
 vesktop  (Discord)
+```
+
+The browser (`Super + W` / `Super + B`) is Zen, installed via Flatpak:
+```bash
+flatpak install flathub app.zen_browser.zen
 ```
 
 ---
@@ -133,7 +138,7 @@ what's actually loaded; see [Notes](#notes)).
 | `Super + T` | Text editor |
 | `Super + E` | Nautilus |
 | `Super + Shift + E` | Yazi (terminal file manager) |
-| `Super + W` | Open default browser (zen) |
+| `Super + W` / `Super + B` | Open default browser (Zen, Flatpak) |
 | `Super + Space` / `Super + Shift + D` | Rofi app launcher |
 | `Super + I` | GNOME settings (Control Center) |
 | `Super + Shift + W` | Waypaper (wallpaper picker + matugen recolor) |
@@ -163,6 +168,7 @@ what's actually loaded; see [Notes](#notes)).
 | `Super + 0-9` | Switch to workspace |
 | `Super + Shift + 0-9` | Move window to workspace (and follow) |
 | `Super + Alt + 0-9` | Move window to workspace (stay) |
+| `Super + G` | Switch to the `gaming` named workspace |
 | `Super + Ctrl + Left/Right` | Switch to adjacent workspace |
 | `Super + Ctrl + Down` | Switch to next empty workspace |
 | `Super + Ctrl + Alt + Left/Right` | Move window to adjacent workspace |
@@ -200,8 +206,11 @@ what's actually loaded; see [Notes](#notes)).
 
 - **Lua config** — Hyprland is configured via `.config/hypr/hyprland.lua` + `.config/hypr/config/*.lua` (Hyprland's native Lua config, as shipped by CachyOS). When both a `hyprland.lua` and a `hyprland.conf` exist in `~/.config/hypr/`, Hyprland loads the Lua one — a plain `.conf` main config isn't used here. Everything under `configs/*.conf` (the old `.conf`-based bind/animation/rules setup this rice used pre-CachyOS) has been removed since it was dead weight: none of it was actually loaded.
 - **Keybinds** live in `config/keybinds.lua`. It has two parts: CachyOS's own defaults (window management, launchers, hardware keys, workspaces) followed by a `DOTFILES CUSTOM BINDS` section with everything this rice adds on top, on modifier combos that don't collide with the defaults (e.g. screenshot is `Super+Shift+P`, not `Super+Shift+S`, because `Super+Shift+S` is a CachyOS default). `Super + C` (calculator) and the CachyOS scratchpad binds (`Super + S` / `Super + Shift + S`) were deliberately deleted from `config/keybinds.lua` rather than worked around, freeing `Super + C` and `Super + S` entirely (currently unbound).
-- **Monitor config** — `config/monitors.lua` auto-detects (`mode = "preferred"`, `scale = "auto"`). Run `hyprctl monitors` to see what's connected if you need to pin a specific mode.
+- **Monitor config** — `monitors.lua` pins this machine's displays by description (Dell S2725QC at 4K@120, scale 2; BenQ above it); `config/monitors.lua` auto-detects anything else (`mode = "preferred"`, `scale = "auto"`). Run `hyprctl monitors` and edit `monitors.lua` for different hardware.
+- **GPU selection** — `config/environment.lua` sets `AQ_DRM_DEVICES` to render on the NVIDIA dGPU when the HDMI display (wired to the dGPU) is connected at login, and leaves the AMD iGPU as default otherwise. The PCI addresses are specific to this laptop; on other hardware the block is a no-op. If it ever blocks login, comment it out from a TTY.
+- **Performance** — blur, shadows and window transparency are disabled in `config/decorations.lua`, and `config/misc.lua` enables VFR, the new render scheduler and direct scanout for games.
 - **Waybar** uses symlinks: `~/.config/waybar/config` and `~/.config/waybar/style.css` point to files in `configs/` and `style/`. Use the `Super+Ctrl+B` / `Super+Alt+B` menus to switch, or re-run the symlink manually.
 - **Matugen** regenerates all color files (`hyprland`, `kitty`, `waybar`, `rofi`, `cava`, `gtk-3.0`, `gtk-4.0`, `vesktop`, `spicetify`) from one wallpaper image, triggered by Waypaper's post-command hook when you pick a wallpaper (`Super+Shift+W`). The Hyprland color template's post-hook runs `scripts/apply-colors.sh`, which re-applies the new border colors live via `hyprctl eval`.
+- **Waypaper** config (`.config/waypaper/config.ini`) holds the post-command hook: `matugen image $wallpaper --prefer saturation && ln -sf $wallpaper ~/.config/hypr/current_wallpaper`.
 - **Wallpapers** are loaded from `~/Pictures/wallpapers/`. The `install.sh` copies the included wallpapers there.
 - **hyprlock** background uses `~/.config/hypr/current_wallpaper` (a symlink Waypaper's post-command hook updates on every wallpaper change).

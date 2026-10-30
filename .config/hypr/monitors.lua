@@ -10,10 +10,10 @@ hl.monitor({
 })
 
 hl.monitor({
-  output = "desc:Innovent Systems Inc. X315",
-  mode = "1920x1080@120.00",
+  output = "desc:Dell Inc. DELL S2725QC 7TBV464",
+  mode = "3840x2160@120.00",
   position = "0x0",
-  scale = 1,
+  scale = 2,
   sdr_min_luminance = 0.2,
   sdr_max_luminance = 80,
 })
@@ -24,10 +24,10 @@ hl.monitor({
 })
 
 hl.workspace_rule({ workspace = "1", monitor = "desc:BNQ ZOWIE XL LCD EBSAM03279SL0", default = true, persistent = true })
-hl.workspace_rule({ workspace = "2", monitor = "desc:Innovent Systems Inc. X315", default = true, persistent = true })
+hl.workspace_rule({ workspace = "2", monitor = "desc:Dell Inc. DELL S2725QC 7TBV464", default = true, persistent = true })
 hl.workspace_rule({ workspace = "3", monitor = "desc:BNQ ZOWIE XL LCD EBSAM03279SL0" })
-hl.workspace_rule({ workspace = "4", monitor = "desc:Innovent Systems Inc. X315" })
+hl.workspace_rule({ workspace = "4", monitor = "desc:Dell Inc. DELL S2725QC 7TBV464" })
 hl.workspace_rule({ workspace = "5", monitor = "desc:BNQ ZOWIE XL LCD EBSAM03279SL0" })
-hl.workspace_rule({ workspace = "6", monitor = "desc:Innovent Systems Inc. X315" })
+hl.workspace_rule({ workspace = "6", monitor = "desc:Dell Inc. DELL S2725QC 7TBV464" })
 hl.workspace_rule({ workspace = "7", monitor = "desc:BNQ ZOWIE XL LCD EBSAM03279SL0" })
-hl.workspace_rule({ workspace = "8", monitor = "desc:Innovent Systems Inc. X315" })
+hl.workspace_rule({ workspace = "8", monitor = "desc:Dell Inc. DELL S2725QC 7TBV464" })

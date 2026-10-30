@@ -22,9 +22,9 @@ kick() {
     sleep 2
     hyprctl eval "hl.monitor({output=\"$BENQ\", disabled=true})"
     sleep 1
-    hyprctl eval "hl.monitor({output=\"$BENQ\", mode=\"1920x1080@50.00\", position=\"0x-1080\", scale=1.0})"
+    hyprctl eval "hl.monitor({output=\"$BENQ\", mode=\"1920x1080@50.00\", position=\"0x-1080\", scale=1.0, disabled=false})"
     sleep 1
-    hyprctl eval "hl.monitor({output=\"$BENQ\", mode=\"1920x1080@60.00\", position=\"0x-1080\", scale=1.0})"
+    hyprctl eval "hl.monitor({output=\"$BENQ\", mode=\"1920x1080@60.00\", position=\"0x-1080\", scale=1.0, disabled=false})"
     echo "kick done"
 }
 
